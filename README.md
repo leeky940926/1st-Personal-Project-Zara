@@ -33,6 +33,9 @@
 
 ## ERD Diagram
 
+![zara](https://user-images.githubusercontent.com/88086271/144640885-edc5a3d4-cf7f-49e7-9b98-28873329471e.png)
+
+
 <br>
 
 ## EndPoint
