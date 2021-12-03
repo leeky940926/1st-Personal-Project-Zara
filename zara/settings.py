@@ -85,7 +85,7 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with'
 )
 
-ROOT_URLCONF = 'drf.urls'
+ROOT_URLCONF = 'zara.urls'
 
 TEMPLATES = [
     {
@@ -103,7 +103,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'drf.wsgi.application'
+WSGI_APPLICATION = 'zara.wsgi.application'
 
 
 # Database
@@ -159,3 +159,28 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'disable_existing_loggers': False,
+    'version': 1,
+    'formatters': {
+         'verbose': {
+            'format': '{asctime} {levelname} {message}',
+            'style': '{'
+        },
+    },
+    'handlers': {
+        'console': {
+            'class'     : 'logging.StreamHandler',
+            'formatter' : 'verbose',
+            'level'     : 'DEBUG',
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers' : ['console'],
+            'level'    : 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
