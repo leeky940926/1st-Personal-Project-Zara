@@ -17,10 +17,11 @@
 1. Skill & Tools
 2. ERD Diagram
 3. EndPoint
-4. 구현 사항 상세 설명
-5. Unit Test 결과
-6. Commit Message GuideLines
-7. Reference
+4. Postman API Documentaion
+5. 구현 사항 상세 설명
+6. Unit Test 결과
+7. Commit Message GuideLines
+8. Reference
 
 <br>
 
@@ -44,6 +45,16 @@
 
 POST /users/signup
 
+2. 로그인
+
+POST /users/signin
+
+<br>
+
+## Postman API Documentation
+
+[Documention](https://documenter.getpostman.com/view/17716434/UVJhEvco)
+
 <br>
 
 ## 구현 사항 상세 설명
@@ -66,7 +77,25 @@ role_id가 roles 테이블에 존재하지 않는 경우 Role.DoesNotExist가 �
 
 <br>
 
+2. 로그인
+
+BODY : email, password
+
+이메일과 비밀번호를 입력받아서 로그인을 진행합니다.
+
+이메일이 존재하지 않는다면 User.DoesNotExist 예외처리를 하고
+
+비밀번호가 틀리다면 InvalidPassowrd 예외처리를 합니다.
+
+이상없이 로그인 된다면 유저 고유의 토큰이 발급됩니다.
+
+구현 사항에 대한 상세 코드 : [클릭](https://velog.io/@kyleee/1.-%ED%98%BC%EC%9E%90-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EB%8A%94-Zara-%EB%A1%9C%EA%B7%B8%EC%9D%B8)
+
 ## Unit Test 결과
+
+1. APP users 
+
+![image](https://user-images.githubusercontent.com/88086271/144819689-ffc3068d-f198-4286-b498-b181f9913a22.png)
 
 <br>
 
@@ -84,4 +113,4 @@ role_id가 roles 테이블에 존재하지 않는 경우 Role.DoesNotExist가 �
 
 ## Reference
 * 이 프로젝트는 [Zara](https://www.zara.com/kr/) 웹 사이트를 참조하여 학습 목적으로 만들었습니다.
-* 실무 수준의 프로젝트이지만 학습용으로 만들었기 때문에 이 코드를 활용하여 이득을 취하거나 무단 배포할 경우, 법적으로 문제가 있을 수 있습니다.
+* 학습용이지만 실제 웹 사이트를 기반으로 만들었기 때문에 이 코드를 활용하여 이득을 취하거나 무단 배포할 경우, 법적으로 문제가 있을 수 있습니다.
