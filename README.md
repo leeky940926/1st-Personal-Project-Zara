@@ -62,6 +62,8 @@ BODY : email, password, role_id
 
 role_id가 roles 테이블에 존재하지 않는 경우 Role.DoesNotExist가 발생합니다.
 
+구현 사항에 대한 상세 코드 : [클릭](https://velog.io/@kyleee/1.-%ED%98%BC%EC%9E%90-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EB%8A%94-Zara-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85)
+
 <br>
 
 ## Unit Test 결과
