@@ -32,6 +32,8 @@ pymysql.install_as_MySQLdb()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
+ALGORITHMS = env('ALGORITHMS')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
