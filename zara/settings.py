@@ -42,6 +42,15 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+CUSTOMIZED_APPS = [
+    'users',
+    'products',
+]
+
+THIRD_PARTY_APPS = [
+    'corsheaders',
+]
+
 INSTALLED_APPS = [
     # 'django.contrib.admin',
     # 'django.contrib.auth',
@@ -49,9 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
-    'users'
-]
+] + CUSTOMIZED_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
