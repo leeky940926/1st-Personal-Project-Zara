@@ -11,6 +11,7 @@ def login_required(func) :
             access_token = request.headers.get('Authorization', None)
             payload      = jwt.decode(access_token, settings.SECRET_KEY, settings.ALGORITHMS)
             user         = User.objects.get(id=payload['id'])
+            request.user = user
             
         except jwt.exceptions.DecodeError :
             return JsonResponse({'message' : 'DECODE_ERROR'}, status=401)
