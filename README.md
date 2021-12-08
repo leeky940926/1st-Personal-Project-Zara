@@ -6,6 +6,8 @@
 
 보다 다양성이 많은 여성 옷에 대해서만 구현할 예정입니다.
 
+또한 데이터 역시 faker 라이브러리를 이용한 랜덤 데이터로 생성할 예정입니다.
+
 최초 초안 기획부터 구현까지 혼자했으며, EC2나 RDS까지 배포는 비용 문제상 하지 않을 생각입니다.
 
 프로젝트 기간은 12월 4일(토) ~ 12월 18일(토)까지 입니다.
@@ -49,6 +51,10 @@ POST /users/signup
 
 POST /users/signin
 
+3. 상품추가
+
+POST /products
+
 <br>
 
 ## Postman API Documentation
@@ -90,6 +96,26 @@ BODY : email, password
 이상없이 로그인 된다면 유저 고유의 토큰이 발급됩니다.
 
 구현 사항에 대한 상세 코드 : [클릭](https://velog.io/@kyleee/1.-%ED%98%BC%EC%9E%90-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EB%8A%94-Zara-%EB%A1%9C%EA%B7%B8%EC%9D%B8)
+
+<br>
+
+3. 대표 상품 추가
+
+BODY : category_id, name, price, url
+
+가장 먼저, 등록하는 사람의 등급을 확인하기 위해 토큰에서 유저정보를 가져온 뒤, 등급을 확인합니다.
+
+유저면 403 PermissionDenied 에러가 발생하고, 관리자면 저장할 수 있습니다.
+
+상품을 추가하고, 상품에 대한 썸네일을 등록하는데 테이블이 달라서 트랜잭션을 설정해줬습니다.
+
+원자성을 지켜 데이터가 저장되거나, 안되거나 되도록 설정했습니다.
+
+썸네일은 상품마다 한 개이기 때문에 Unique=True를 설정했습니다.
+
+데이터 추가할 때 이 규칙을 어길시, IntegrityError가 발생합니다.
+
+구현 사항에 대한 상세 코드 : [클릭](https://velog.io/@kyleee/1.-%ED%98%BC%EC%9E%90-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EB%8A%94-Zara-%EA%B6%8C%ED%95%9C%EC%97%90-%EB%94%B0%EB%A5%B8-%EC%83%81%ED%92%88-%EC%B6%94%EA%B0%80)
 
 ## Unit Test 결과
 
