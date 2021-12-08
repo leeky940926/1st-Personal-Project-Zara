@@ -5,10 +5,12 @@ from enum               import Enum
 from bs4                import BeautifulSoup
 from django.http        import JsonResponse
 from django.views       import View
+
 from django.db          import (
     transaction,
     IntegrityError
 )
+
 from users.models       import (
     User,
     Role

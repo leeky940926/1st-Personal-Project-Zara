@@ -8,4 +8,5 @@ from products.views import (
 urlpatterns = [
     path('/menus', MenuView.as_view()),
     path('', ProductView.as_view())
+
 ]
