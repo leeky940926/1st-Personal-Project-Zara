@@ -10,7 +10,7 @@ class Menu(TimeStampModel) :
 
 class Category(TimeStampModel) :
     menu               = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    parent_category_id = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
+    parent_category    = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
     name               = models.CharField(max_length=40)
     
     class Meta :
@@ -26,7 +26,7 @@ class Product(TimeStampModel) :
 
 class Thumbnail(TimeStampModel) :
     url     = models.CharField(max_length=500)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, unique=True)
     
     class Meta :
         db_table = 'thumbnails'

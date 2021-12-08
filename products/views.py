@@ -6,6 +6,11 @@ from bs4                import BeautifulSoup
 from django.http        import JsonResponse
 from django.views       import View
 
+from django.db          import (
+    transaction,
+    IntegrityError
+)
+
 from users.models       import (
     User,
     Role
@@ -48,9 +53,6 @@ class MenuView(View) :
         
         except User.DoesNotExist :
             return JsonResponse({'message' : 'USER_DOES_NOT_EXIST'}, status=400)
-        
-        except Role.DoesNotExist :
-            return JsonResponse({'message' : 'ROLE_DOES_NOT_EXIST'}, status=400)
     
     def get(self, request) :
         
@@ -65,3 +67,37 @@ class MenuView(View) :
         menu_list = [menu.text for menu in menus]
 
         return JsonResponse({'menu_list' : menu_list}, status=200)
+    
+class ProductView(View) :
+    @login_required
+    def post(self, request) :
+        try :
+            with transaction.atomic() :
+                if request.user.role_id != RoleID.ADMIN.value :
+                    return JsonResponse({'message' : 'PERMISSION_DENIED'}, status=403)
+            
+                data = json.loads(request.body)
+                
+                category_id = data['category_id']
+                name        = data['name']
+                price       = data['price']
+                url         = data['url']
+            
+                product = Product.objects.create(
+                    category_id = category_id,
+                    name        = name,
+                    price       = price
+                )
+                
+                Thumbnail.objects.create(
+                    product = product,
+                    url     = url
+                )
+                
+                return JsonResponse({'message' : 'SUCCESS'}, status=201)
+
+        except KeyError :
+            return JsonResponse({'message' : 'KEY_ERROR'}, status=400)
+        
+        except IntegrityError :
+            return JsonResponse({'message' : 'INTEGRITY_ERROR'}, status=400)

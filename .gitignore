@@ -365,3 +365,5 @@ zsdoc/data
 .env
 
 .github
+
+db_uploader.py
