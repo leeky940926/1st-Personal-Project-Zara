@@ -4,11 +4,13 @@
 
 해당 Git Repositry는 웹 사이트 [Zara](https://www.zara.com/kr/)를 모티브로 한 프로젝트를 진행할 예정입니다.
 
-보다 다양성이 많은 여성 옷에 대해서만 구현할 예정입니다.
+데이터는 Zara에 요청 보낼 시, 403 Forbidden이 발생해서 faker 라이브러리를 이용한 랜덤 데이터로 생성할 예정입니다.
 
-또한 데이터 역시 faker 라이브러리를 이용한 랜덤 데이터로 생성할 예정입니다.
+그래서 홈페이지를 보며, DB모델링은 어떻게 되어야 하고 각 페이지마다 데이터를 어떻게 보내야 하는지 등에 더 집중하여
 
-최초 초안 기획부터 구현까지 혼자했으며, EC2나 RDS까지 배포는 비용 문제상 하지 않을 생각입니다.
+프론트엔드와 실제로 통신한다는 생각으로 코드를 작성했습니다.
+
+최초 초안 기획부터 구현까지 혼자했으며, EC2나 RDS까지 배포는 비용 문제상 하지 않을 예정입니다.
 
 프로젝트 기간은 12월 4일(토) ~ 12월 18일(토)까지 입니다.
 
@@ -51,7 +53,7 @@ POST /users/signup
 
 POST /users/signin
 
-3. 상품추가
+3. 대표상품추가
 
 POST /products
 
@@ -112,6 +114,10 @@ BODY : category_id, name, price, url
 원자성을 지켜 데이터가 저장되거나, 안되거나 되도록 설정했습니다.
 
 썸네일은 상품마다 한 개이기 때문에 Unique=True를 설정했습니다.
+
+ForeignKey에 Unique=True를 주는 것과 모델의 필드를 OneToOneField로 설정하는 것이 똑같지만,
+
+select_related를 사용할 때 ForeignKey는 정참조를, OneToOneField는 역참조에 사용해서 통일성을 주기 위해 ForeignKey를 사용했습니다.
 
 데이터 추가할 때 이 규칙을 어길시, IntegrityError가 발생합니다.
 
