@@ -16,10 +16,17 @@ class Category(TimeStampModel) :
     class Meta :
         db_table = 'categories'
         
-class Product(TimeStampModel) :
+class Item(TimeStampModel) :
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name     = models.CharField(max_length=30)
-    price    = models.PositiveIntegerField()
+    
+    class Meta :
+        db_table = 'items'
+        
+class Product(TimeStampModel) :
+    item  = models.ForeignKey(Item, on_delete=models.CASCADE)
+    name  = models.CharField(max_length=30)
+    price = models.PositiveIntegerField()
     
     class Meta :
         db_table = 'products'
