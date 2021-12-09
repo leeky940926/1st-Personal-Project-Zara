@@ -51,6 +51,10 @@ POST /users/signup
 
 POST /users/signin
 
+3. 상품추가
+
+POST /products
+
 <br>
 
 ## Postman API Documentation
