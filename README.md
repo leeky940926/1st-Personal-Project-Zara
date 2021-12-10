@@ -2,7 +2,7 @@
 
 안녕하세요.
 
-해당 Git Repositry는 웹 사이트 [Zara](https://www.zara.com/kr/)를 모티브로 한 프로젝트를 진행할 예정입니다.
+해당 Git Repositry는 웹 사이트 [Zara](https://www.zara.com/kr/)를 모티브로 한 프로젝트를 위해 만들어졌습니다.
 
 데이터는 크롤링을 위해 Zara에 요청 보낼 시, 403 Forbidden이 발생해서 faker 라이브러리를 이용한 랜덤 데이터로 생성할 예정입니다.
 
