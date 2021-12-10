@@ -37,7 +37,8 @@
 
 ## ERD Diagram
 
-![zara (1)](https://user-images.githubusercontent.com/88086271/145532537-4d962f47-d26c-4326-989d-ba6cea82e7d7.png)
+![zara (2)](https://user-images.githubusercontent.com/88086271/145546264-fadf1b5d-d0b1-471c-b14a-899cca2e4964.png)
+
 
 
 <br>
