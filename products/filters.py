@@ -35,14 +35,3 @@ class ProductList :
             filter(product_filter).order_by('-created_at')[offset:offset+limit]
             
         return products
-
-class OneProduct :
-    def __init__(self, product_id) :
-        self.product_id = product_id
-    
-    def select_one_products(product_id) :
-        try :
-            return DetailProduct.objects.get(product_id=product_id)
-        
-        except DetailProduct.DoesNotExist :
-            return None    
