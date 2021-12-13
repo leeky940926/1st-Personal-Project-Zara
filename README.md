@@ -63,7 +63,9 @@ GET /products
 
 5. 상품상세페이지 조회
 
-GET /products/<int:product_id>
+
+GET /products/{int:product_id}
+
 
 <br>
 
@@ -172,6 +174,9 @@ Path Paramter : product_id
 그렇다보니 한 번 더 쿼리를 보내야해서 N+1 Problem이 발생했습니다.
 
 이 부분에 대해 어떤 게 더 올바른 방법인지 계속 고민하게 되었으며, 코드를 작성할 때 ORM최적화 및 성능등을 고려하는 게 왜 중요한지 깨닫게 되었습니다.
+
+
+구현 사항에 대한 상세 코드 : [클릭](https://velog.io/@kyleee/1.-%ED%98%BC%EC%9E%90-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EB%8A%94-Zara-%EC%83%81%ED%92%88-%EC%83%81%EC%84%B8%EB%A6%AC%EC%8A%A4%ED%8A%B8)
 
 
 
