@@ -10,20 +10,13 @@ from django.db          import (
 
 from users.utils        import login_required
 from products.models    import (
-    Item,
-    Menu,
-    Category,
+    Color,
     Size,
     Thumbnail,
     Product,
-    ProductImage,
-    Color,
     DetailProduct
 )
-from products.filters    import (
-    ProductList,
-    OneProduct
-)
+from products.filters    import ProductList
 
 class RoleID(Enum) :
     ADMIN = 1
@@ -46,7 +39,8 @@ class ProductView(View) :
             
             products = ProductList.filter_products(offset, limit, category_id, item_id, color_id, size_id, min_price, max_price)
             
-            product_list = [{
+            product_list = [
+                {
                     'id'        : product.id,
                     'name'      : product.name,
                     'price'     : product.price,
@@ -68,10 +62,10 @@ class ProductView(View) :
                 } for product in products
             ]
             
-            return JsonResponse({'message' : product_list}, status=200)
+            return JsonResponse({'product_list' : product_list}, status=200)
         
         except KeyError :
-            return JsonResponse({'message' : 'KEY_ERROR'}, status=500)
+            return JsonResponse({'message' : 'KEY_ERROR'}, status=400)
     
     @login_required
     def post(self, request) :
@@ -82,15 +76,15 @@ class ProductView(View) :
             
                 data = json.loads(request.body)
                 
-                category_id = data['category_id']
-                name        = data['name']
-                price       = data['price']
-                url         = data['url']
+                item_id = data['item_id']
+                name    = data['name']
+                price   = data['price']
+                url     = data['url']
             
                 product = Product.objects.create(
-                    category_id = category_id,
-                    name        = name,
-                    price       = price
+                    item_id  = item_id,
+                    name     = name,
+                    price    = price
                 )
                 
                 Thumbnail.objects.create(
@@ -105,3 +99,35 @@ class ProductView(View) :
         
         except IntegrityError :
             return JsonResponse({'message' : 'INTEGRITY_ERROR'}, status=400)
+        
+class DetailProductView(View) :
+    def get(self, request, product_id) :
+        try :
+            product         = Product.objects.prefetch_related('productimage_set').get(id=product_id)
+            detail_products = DetailProduct.objects.select_related('size', 'color', 'product').filter(product=product)
+            
+            data_set = [{
+                'id'     : product_id,
+                'name'   : product.name,
+                'price'  : product.price,
+                'detail' : [{
+                    'color_id'   : detail['color'],
+                    'color_name' : Color.objects.get(id=detail['color']).color,
+                    'size' : [{
+                        'size_id'   : size['size'],
+                        'size_name' : Size.objects.get(id=size['size']).size
+                    }for size in detail_products.filter(color_id=detail['color']).values('size')]
+                }for detail in detail_products.values('color').distinct()],
+                'images' : [{
+                    'id'  : image.id,
+                    'url' : image.url
+                }for image in product.productimage_set.all()]
+            }]
+            
+            return JsonResponse({'data_set' : data_set}, status=200)
+        
+        except TypeError :
+            return JsonResponse({'message' : 'TYPE_ERROR'}, status=400)
+        
+        except Product.DoesNotExist :
+            return JsonResponse({'message' : 'PRODUCT_DOES_NOT_EXIST'}, status=400)

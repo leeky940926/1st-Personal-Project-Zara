@@ -1,12 +1,13 @@
 from django.urls    import path
 
 from products.views import (
-    MenuView,
-    ProductView
+    ProductView,
+    DetailProductView
 )
 
 urlpatterns = [
-    path('/menus', MenuView.as_view()),
-    path('', ProductView.as_view())
+    path('', ProductView.as_view()),
+    path('/<int:product_id>', DetailProductView.as_view())
+    
 
 ]
