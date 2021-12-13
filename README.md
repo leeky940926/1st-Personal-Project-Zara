@@ -107,7 +107,7 @@ BODY : email, password
 
 비밀번호가 틀리다면 InvalidPassowrd 예외처리를 합니다.
 
-이상없이 로그인 된다면 유저 고유의 JSON Weg Token이 발급됩니다.
+이상없이 로그인 된다면 유저 고유의 JSON Web Token이 발급됩니다.
 
 구현 사항에 대한 상세 코드 : [클릭](https://velog.io/@kyleee/1.-%ED%98%BC%EC%9E%90-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EB%8A%94-Zara-%EB%A1%9C%EA%B7%B8%EC%9D%B8)
 
