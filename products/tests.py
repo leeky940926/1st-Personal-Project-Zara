@@ -198,6 +198,7 @@ class TestDetailProductView(TestCase) :
         ]
         
         ProductImage.objects.bulk_create(product_image)
+        Thumbnail.objects.create(id=1, url="url1", product=product)
     
     def tearDown(self) :
         Menu.objects.all().delete()
@@ -208,6 +209,7 @@ class TestDetailProductView(TestCase) :
         Color.objects.all().delete()
         DetailProduct.objects.all().delete()
         ProductImage.objects.all().delete()
+        Thumbnail.objects.all().delete()
     
     def test_success_get_detail(self) :
         client = Client()
@@ -253,3 +255,27 @@ class TestDetailProductView(TestCase) :
         self.assertEqual(response.json(),{
             'data_set' : data_set
         })
+    
+    def test_success_update_product_info(self) :
+        client = Client()
+        
+        data = {
+            'sales' : 10
+        }
+        
+        response = client.post('/products/1', json.dumps(data), content_type='application/json')
+        
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json(), {'message' : 'SUCCESS'})
+    
+    def test_failure_update_product_raise_product_does_not_exist(self) :
+        client = Client()
+        
+        data = {
+            'sales' : 10
+        }
+        
+        response = client.post('/products/11111', json.dumps(data), content_type='application/json')
+        
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json(), {'message' : 'PRODUCT_DOES_NOT_EXIST'})

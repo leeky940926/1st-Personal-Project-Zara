@@ -7,10 +7,12 @@ from django.db          import (
     transaction,
     IntegrityError
 )
+from django.db.models   import F
 
 from users.utils        import login_required
 from products.models    import (
     Color,
+    ProductImage,
     Size,
     Thumbnail,
     Product,
@@ -129,5 +131,33 @@ class DetailProductView(View) :
         except TypeError :
             return JsonResponse({'message' : 'TYPE_ERROR'}, status=400)
         
+        except Product.DoesNotExist :
+            return JsonResponse({'message' : 'PRODUCT_DOES_NOT_EXIST'}, status=400)
+    
+    def post(self, request, product_id) :
+        try :
+            with transaction.atomic() :
+                data = json.loads(request.body)
+                
+                thumbnail_url = data.get('thumbnail', None)
+                name          = data.get('name')
+                sales         = data.get('sales')
+                product       = Product.objects.select_related('thumbnail').get(id=product_id)
+                
+                if thumbnail_url :
+                    thumbnail = product.thumbnail_set.get()
+                    thumbnail.url = thumbnail_url
+                    thumbnail.save()
+                
+                if sales :
+                    product.price = F('price') * (100-int(sales)) / 100
+                    product.save()
+                                 
+                if name :
+                    product.name = name
+                    product.save()
+            
+            return JsonResponse({'message' : 'SUCCESS'}, status=201)
+            
         except Product.DoesNotExist :
             return JsonResponse({'message' : 'PRODUCT_DOES_NOT_EXIST'}, status=400)
