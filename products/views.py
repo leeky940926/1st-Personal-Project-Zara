@@ -1,6 +1,7 @@
 import json
    
 from enum               import Enum
+
 from django.http        import JsonResponse
 from django.views       import View
 from django.db          import (
@@ -8,6 +9,7 @@ from django.db          import (
     IntegrityError
 )
 from django.db.models   import F
+from django.utils       import timezone
 
 from users.utils        import login_required
 from products.models    import (
@@ -134,8 +136,15 @@ class DetailProductView(View) :
         except Product.DoesNotExist :
             return JsonResponse({'message' : 'PRODUCT_DOES_NOT_EXIST'}, status=400)
     
+    @login_required
     def post(self, request, product_id) :
         try :
+            
+            user = request.user
+            
+            if user.role_id != RoleID.ADMIN.value :
+                return JsonResponse({'message' : 'PERMISSION_DENIED'}, status=403)
+
             with transaction.atomic() :
                 data = json.loads(request.body)
                 
@@ -147,16 +156,19 @@ class DetailProductView(View) :
                 if thumbnail_url :
                     thumbnail = product.thumbnail_set.get()
                     thumbnail.url = thumbnail_url
+                    thumbnail.updated_at = timezone.now()
                     thumbnail.save()
-                
+                    
                 if sales :
-                    product.price = F('price') * (100-int(sales)) / 100
-                    product.save()
-                                 
+                     product.price = F('price') * (100-int(sales)) / 100
+                     product.save()
+                    
                 if name :
                     product.name = name
                     product.save()
-            
+                
+                product.updated_at = timezone.now()
+   
             return JsonResponse({'message' : 'SUCCESS'}, status=201)
             
         except Product.DoesNotExist :
