@@ -14,6 +14,7 @@ from django.utils       import timezone
 from users.utils        import login_required
 from products.models    import (
     Color,
+    ProductImage,
     Size,
     Thumbnail,
     Product,
@@ -143,7 +144,7 @@ class DetailProductView(View) :
             
             if user.role_id != RoleID.ADMIN.value :
                 return JsonResponse({'message' : 'PERMISSION_DENIED'}, status=403)
-            
+
             with transaction.atomic() :
                 data = json.loads(request.body)
                 
@@ -167,7 +168,7 @@ class DetailProductView(View) :
                     product.save()
                 
                 product.updated_at = timezone.now()
-            
+   
             return JsonResponse({'message' : 'SUCCESS'}, status=201)
             
         except Product.DoesNotExist :
