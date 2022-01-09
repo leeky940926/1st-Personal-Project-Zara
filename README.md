@@ -63,8 +63,11 @@ GET /products
 
 5. 상품상세페이지 조회
 
-
 GET /products/{int:product_id}
+
+6. 상품수정
+
+POST /products/{int:product_id}
 
 
 <br>
@@ -175,10 +178,23 @@ Path Paramter : product_id
 
 이 부분에 대해 어떤 게 더 올바른 방법인지 계속 고민하게 되었으며, 코드를 작성할 때 ORM최적화 및 성능등을 고려하는 게 왜 중요한지 깨닫게 되었습니다.
 
-
 구현 사항에 대한 상세 코드 : [클릭](https://velog.io/@kyleee/1.-%ED%98%BC%EC%9E%90-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EB%8A%94-Zara-%EC%83%81%ED%92%88-%EC%83%81%EC%84%B8%EB%A6%AC%EC%8A%A4%ED%8A%B8)
 
+<br>
 
+6. F객체를 이용한 수정과 경쟁조건
+
+Path Paramter : product_id
+
+수정을 할 때, 일반 유저는 수정을 못하기 때문에 토큰을 통해 불러온 유저 등급을 확인합니다.
+
+일반 유저면 403 에러를, 관리자면 수정을 할 수 있습니다.
+
+수정을 할 때, F객체를 썼는데 F객체를 이용해서 쿼리 수를 줄였으며 경쟁조건도 피할 수 있게 설정했습니다.
+
+구현 사항에 대한 상세 코드 : [클릭](https://velog.io/@kyleee/1.-%ED%98%BC%EC%9E%90-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%B3%B4%EB%8A%94-Zara-%EC%83%81%ED%92%88-%EC%88%98%EC%A0%95)
+
+<br>
 
 ## Unit Test 결과
 
@@ -187,6 +203,8 @@ Path Paramter : product_id
 ![image](https://user-images.githubusercontent.com/88086271/144819689-ffc3068d-f198-4286-b498-b181f9913a22.png)
 
 2. APP products
+
+![image](https://user-images.githubusercontent.com/88086271/146353388-0c144adc-3117-4fb6-9c3b-eee98945871f.png)
 
 <br>
 
